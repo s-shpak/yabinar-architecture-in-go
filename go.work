@@ -1,0 +1,7 @@
+go 1.23.2
+
+use (
+	./architecture-demo/controller-service-repository
+	./architecture-demo/simple
+	./what-is-internal/examples
+)
