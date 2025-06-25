@@ -8,55 +8,55 @@ import (
 )
 
 type Repository interface {
-	GetFoobar(req *repository.GetFoobarRequest) (*repository.GetFoobarResponse, error)
-	SetFoobar(req *repository.SetFoobarRequest)
+	GetFizzBuzz(req *repository.GetFizzBuzzRequest) (*repository.GetFizzBuzzResponse, error)
+	SetFizzBuzz(req *repository.SetFizzBuzzRequest)
 }
 
-type Foobar struct {
+type FizzBuzz struct {
 	store Repository
 }
 
-func NewFoobar(store Repository) *Foobar {
-	return &Foobar{
+func NewFizzBuzz(store Repository) *FizzBuzz {
+	return &FizzBuzz{
 		store: store,
 	}
 }
 
-type GetFoobarRequest struct {
+type GetFizzBuzzRequest struct {
 	N int
 }
 
-type GetFoobarResponse struct {
+type GetFizzBuzzResponse struct {
 	Data []string
 }
 
 var (
-	ErrGetFoobarInvalidRequest = errors.New("invalid get foobar request")
-	ErrRepoFailed              = errors.New("repo failed")
+	ErrGetFizzBuzzInvalidRequest = errors.New("invalid get fizzbuzz request")
+	ErrRepoFailed                = errors.New("repo failed")
 )
 
-func (f *Foobar) GetFoobar(req *GetFoobarRequest) (*GetFoobarResponse, error) {
-	if err := getFoobarValidateRequest(req); err != nil {
+func (f *FizzBuzz) GetFizzBuzz(req *GetFizzBuzzRequest) (*GetFizzBuzzResponse, error) {
+	if err := getFizzBuzzValidateRequest(req); err != nil {
 		return nil, err
 	}
 
-	repositoryResp, err := f.store.GetFoobar(&repository.GetFoobarRequest{
+	repositoryResp, err := f.store.GetFizzBuzz(&repository.GetFizzBuzzRequest{
 		N: req.N,
 	})
 	if err != nil {
-		if !errors.Is(err, repository.ErrGetFoobarNotFound) {
-			return nil, fmt.Errorf("failed to fetch the foobar result from the store: %w", err)
+		if !errors.Is(err, repository.ErrGetFizzBuzzNotFound) {
+			return nil, fmt.Errorf("failed to fetch the fizzbuzz result from the store: %w", err)
 		}
 	}
 
 	if repositoryResp != nil {
-		return &GetFoobarResponse{
+		return &GetFizzBuzzResponse{
 			Data: repositoryResp.Data,
 		}, nil
 	}
 
-	resp := f.calculateFoobar(req)
-	f.store.SetFoobar(&repository.SetFoobarRequest{
+	resp := f.calculateFizzBuzz(req)
+	f.store.SetFizzBuzz(&repository.SetFizzBuzzRequest{
 		N:    req.N,
 		Data: resp.Data,
 	})
@@ -64,13 +64,13 @@ func (f *Foobar) GetFoobar(req *GetFoobarRequest) (*GetFoobarResponse, error) {
 	return resp, nil
 }
 
-func getFoobarValidateRequest(req *GetFoobarRequest) error {
+func getFizzBuzzValidateRequest(req *GetFizzBuzzRequest) error {
 	if req.N <= 0 {
-		return fmt.Errorf("%w: n must be greater than 0, got %d", ErrGetFoobarInvalidRequest, req.N)
+		return fmt.Errorf("%w: n must be greater than 0, got %d", ErrGetFizzBuzzInvalidRequest, req.N)
 	}
 	nLimit := 10000
 	if req.N > nLimit {
-		return fmt.Errorf("%w: n must be less than %d, got %d", ErrGetFoobarInvalidRequest, nLimit, req.N)
+		return fmt.Errorf("%w: n must be less than %d, got %d", ErrGetFizzBuzzInvalidRequest, nLimit, req.N)
 	}
 
 	// эта проверка синтетическая, она имеет смысл только для демо
@@ -80,18 +80,18 @@ func getFoobarValidateRequest(req *GetFoobarRequest) error {
 	return nil
 }
 
-func (f *Foobar) calculateFoobar(req *GetFoobarRequest) *GetFoobarResponse {
-	resp := &GetFoobarResponse{
+func (f *FizzBuzz) calculateFizzBuzz(req *GetFizzBuzzRequest) *GetFizzBuzzResponse {
+	resp := &GetFizzBuzzResponse{
 		Data: make([]string, 0, req.N),
 	}
 	for i := 1; i <= req.N; i++ {
 		var res string
 		if i%3 == 0 && i%5 == 0 {
-			res = "foobar"
+			res = "fizzbuzz"
 		} else if i%3 == 0 {
-			res = "foo"
+			res = "fizz"
 		} else if i%5 == 0 {
-			res = "bar"
+			res = "buzz"
 		} else {
 			res = strconv.Itoa(i)
 		}

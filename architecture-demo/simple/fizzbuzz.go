@@ -2,15 +2,15 @@ package main
 
 import "strconv"
 
-func GetFooBar(n int) string {
+func GetFizzBuzz(n int) string {
 	if n%3 == 0 && n%5 == 0 {
-		return "FooBar"
+		return "FizzBuzz"
 	}
 	if n%3 == 0 {
-		return "Foo"
+		return "Fizz"
 	}
 	if n%5 == 0 {
-		return "Bar"
+		return "Buzz"
 	}
 	return strconv.Itoa(n)
 }

@@ -8,7 +8,7 @@ type Configuration struct {
 
 func GetConfiguration() *Configuration {
 	cfg := &Configuration{}
-	flag.IntVar(&cfg.Limit, "n", 20, "run FooBar up to this number")
+	flag.IntVar(&cfg.Limit, "n", 20, "run FizzBuzz up to this number")
 	flag.Parse()
 	return cfg
 }

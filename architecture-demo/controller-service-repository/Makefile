@@ -3,4 +3,4 @@ all: build
 
 .PHONY: build
 build:
-	go build -o bin/fizzbuzz ./cmd/foobar/
+	go build -o bin/fizzbuzz ./cmd/fizzbuzz/

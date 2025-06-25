@@ -7,8 +7,8 @@ import (
 )
 
 type Repository interface {
-	GetFoobar(req *GetFoobarRequest) (*GetFoobarResponse, error)
-	SetFoobar(req *SetFoobarRequest)
+	GetFizzBuzz(req *GetFizzBuzzRequest) (*GetFizzBuzzResponse, error)
+	SetFizzBuzz(req *SetFizzBuzzRequest)
 }
 
 type Store struct {
@@ -23,41 +23,41 @@ func NewStore() *Store {
 	}
 }
 
-type GetFoobarRequest struct {
+type GetFizzBuzzRequest struct {
 	N int
 }
 
-type GetFoobarResponse struct {
+type GetFizzBuzzResponse struct {
 	Data []string
 }
 
 var (
-	ErrGetFoobarNotFound = errors.New("data not found")
+	ErrGetFizzBuzzNotFound = errors.New("data not found")
 )
 
-func newErrGetFoobarNotFound(n int) error {
-	return fmt.Errorf("%w for n = %d", ErrGetFoobarNotFound, n)
+func newErrGetFizzBuzzNotFound(n int) error {
+	return fmt.Errorf("%w for n = %d", ErrGetFizzBuzzNotFound, n)
 }
 
-func (s *Store) GetFoobar(req *GetFoobarRequest) (*GetFoobarResponse, error) {
+func (s *Store) GetFizzBuzz(req *GetFizzBuzzRequest) (*GetFizzBuzzResponse, error) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
 	res, ok := s.s[req.N]
 	if !ok {
-		return nil, newErrGetFoobarNotFound(req.N)
+		return nil, newErrGetFizzBuzzNotFound(req.N)
 	}
-	return &GetFoobarResponse{
+	return &GetFizzBuzzResponse{
 		Data: res,
 	}, nil
 }
 
-type SetFoobarRequest struct {
+type SetFizzBuzzRequest struct {
 	N    int
 	Data []string
 }
 
-func (s *Store) SetFoobar(req *SetFoobarRequest) {
+func (s *Store) SetFizzBuzz(req *SetFizzBuzzRequest) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 

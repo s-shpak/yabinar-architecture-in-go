@@ -16,15 +16,15 @@ func main() {
 }
 
 type Repository interface {
-	GetFoobar(req *repository.GetFoobarRequest) (*repository.GetFoobarResponse, error)
-	SetFoobar(req *repository.SetFoobarRequest)
+	GetFizzBuzz(req *repository.GetFizzBuzzRequest) (*repository.GetFizzBuzzResponse, error)
+	SetFizzBuzz(req *repository.SetFizzBuzzRequest)
 }
 
 func run() error {
 	cfg := config.GetConfig()
 
 	store := repository.NewStore()
-	foobarService := service.NewFoobar(store)
+	fizzBuzzService := service.NewFizzBuzz(store)
 
-	return handlers.Serve(cfg.Handlers, foobarService)
+	return handlers.Serve(cfg.Handlers, fizzBuzzService)
 }

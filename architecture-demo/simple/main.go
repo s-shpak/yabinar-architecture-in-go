@@ -14,8 +14,8 @@ func main() {
 func run() error {
 	cfg := GetConfiguration()
 	for i := 1; i <= cfg.Limit; i++ {
-		foobar := GetFooBar(i)
-		fmt.Printf("%s ", foobar)
+		fizzbuzz := GetFizzBuzz(i)
+		fmt.Printf("%s ", fizzbuzz)
 	}
 	fmt.Println()
 	return nil
