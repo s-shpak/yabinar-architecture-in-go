@@ -1,10 +1,11 @@
 package service
 
 import (
-	"csr/internal/repository"
 	"errors"
 	"fmt"
 	"strconv"
+
+	"csr/internal/repository"
 )
 
 type Repository interface {
@@ -99,3 +100,8 @@ func (f *FizzBuzz) calculateFizzBuzz(req *GetFizzBuzzRequest) *GetFizzBuzzRespon
 	}
 	return resp
 }
+
+// Cyclic dependency
+// var (
+// 	ErrGetFizzBuzzNotFound = errors.New("data not found")
+// )

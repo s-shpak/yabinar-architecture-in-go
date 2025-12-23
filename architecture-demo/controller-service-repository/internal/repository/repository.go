@@ -46,6 +46,8 @@ func (s *Store) GetFizzBuzz(req *GetFizzBuzzRequest) (*GetFizzBuzzResponse, erro
 	res, ok := s.s[req.N]
 	if !ok {
 		return nil, newErrGetFizzBuzzNotFound(req.N)
+		// Cyclic dependecy
+		// return nil, fmt.Errorf("fizzbuzz not found: %w", service.ErrGetFizzBuzzNotFound)
 	}
 	return &GetFizzBuzzResponse{
 		Data: res,
